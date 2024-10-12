@@ -99,19 +99,23 @@ func Steps(path string) error {
 	}
 	fmt.Println(n.Name)
 	n.addSubNodes(n.Name, 1, []bool{})
-	fmt.Printf("\n%v directories, %v files\n", n.DirCount, n.FileCount)
+	if n.DirCount > 0 || n.FileCount > 0 {
+		fmt.Printf("\n%v directories, %v files\n", n.DirCount, n.FileCount)
+	}
 	return nil
 }
 
 func main() {
 	path := "." // Default to current directory
 	if len(os.Args) >= 2 {
-		path = os.Args[1] // If an argument is provided, use it as the path
+		for i := 1; i < len(os.Args); i++ {
+			path = os.Args[i] // If an argument is provided, use it as the path
+			// Start the directory tree generation
+			err := Steps(path)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+		}
 	}
 
-	// Start the directory tree generation
-	err := Steps(path)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
 }
