@@ -117,4 +117,4 @@ go.work
 
 # User folders
 test/
-*.DS_Store
+.DS_Store
