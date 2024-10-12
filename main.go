@@ -8,6 +8,12 @@ import (
 	"strings"
 )
 
+const (
+	colorReset = "\033[0m"
+	colorBlue  = "\033[34m" // For directories
+	colorGreen = "\033[32m" // For files
+)
+
 type Node struct {
 	Name      string
 	DirCount  int
@@ -55,18 +61,18 @@ func (n *Node) addSubNodes(path string, level int, isLastDir []bool) {
 		if entry.IsDir() {
 			n.DirCount++
 			if isLastEntry {
-				fmt.Println(genIndent(level, isLastDir), "└──", subNode.Name)
+				fmt.Printf("%s└── %s%s%s\n", genIndent(level, isLastDir), colorBlue, subNode.Name, colorReset)
 			} else {
-				fmt.Println(genIndent(level, isLastDir), "├──", subNode.Name)
+				fmt.Printf("%s├── %s%s%s\n", genIndent(level, isLastDir), colorBlue, subNode.Name, colorReset)
 			}
-			// Add to the "isLastDir" list for the next level
-			n.addSubNodes(filepath.Join(path, subNode.Name), level+1, append(isLastDir, isLastEntry))
+			// Add subdirectories recursively
+			subNode.addSubNodes(filepath.Join(path, subNode.Name), level+1, append(isLastDir, isLastEntry))
 		} else {
 			n.FileCount++
 			if isLastEntry {
-				fmt.Println(genIndent(level, isLastDir), "└──", subNode.Name)
+				fmt.Printf("%s└── %s%s%s\n", genIndent(level, isLastDir), colorGreen, subNode.Name, colorReset)
 			} else {
-				fmt.Println(genIndent(level, isLastDir), "├──", subNode.Name)
+				fmt.Printf("%s├── %s%s%s\n", genIndent(level, isLastDir), colorGreen, subNode.Name, colorReset)
 			}
 		}
 
@@ -81,7 +87,7 @@ func genIndent(level int, isLastDir []bool) string {
 		if isLastDir[i] {
 			indent += "    " // Use spaces for the last directory in the parent
 		} else {
-			indent += " │   " // Use vertical lines for intermediate directories
+			indent += "│   " // Use vertical lines for intermediate directories
 		}
 	}
 	return indent
@@ -99,7 +105,8 @@ func Steps(path string) error {
 	}
 	fmt.Println(n.Name)
 	n.addSubNodes(n.Name, 1, []bool{})
-	if n.DirCount > 0 || n.FileCount > 0 {
+
+	if n.DirCount >= 0 || n.FileCount >= 0 {
 		fmt.Printf("\n%v directories, %v files\n", n.DirCount, n.FileCount)
 	}
 	return nil
