@@ -102,7 +102,7 @@ func main() {
 	}
 
 	// Start the directory tree generation
-	err := Steps(path + "/test")
+	err := Steps(path)
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
