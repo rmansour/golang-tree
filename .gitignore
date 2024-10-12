@@ -118,3 +118,4 @@ go.work
 # User folders
 test/
 .DS_Store
+*.txt
