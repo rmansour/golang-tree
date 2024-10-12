@@ -9,8 +9,10 @@ import (
 )
 
 type Node struct {
-	Name     string
-	SubNodes []*Node
+	Name      string
+	DirCount  int
+	FileCount int
+	SubNodes  []*Node
 }
 
 func Init(path string) (*Node, error) {
@@ -46,12 +48,12 @@ func (n *Node) addSubNodes(path string, level int, isLastDir []bool) {
 	// Process only the visible entries
 	for i, entry := range visibleEntries {
 		subNode := &Node{Name: entry.Name()}
-
 		// Determine if this is the last entry
 		isLastEntry := i == len(visibleEntries)-1
 
 		// Print directory or file
 		if entry.IsDir() {
+			n.DirCount++
 			if isLastEntry {
 				fmt.Println(genIndent(level, isLastDir), "└──", subNode.Name)
 			} else {
@@ -60,6 +62,7 @@ func (n *Node) addSubNodes(path string, level int, isLastDir []bool) {
 			// Add to the "isLastDir" list for the next level
 			n.addSubNodes(filepath.Join(path, subNode.Name), level+1, append(isLastDir, isLastEntry))
 		} else {
+			n.FileCount++
 			if isLastEntry {
 				fmt.Println(genIndent(level, isLastDir), "└──", subNode.Name)
 			} else {
@@ -96,6 +99,8 @@ func Steps(path string) error {
 	}
 	fmt.Println(n.Name)
 	n.addSubNodes(n.Name, 1, []bool{})
+	fmt.Println()
+	fmt.Printf("%v directories, %v files", n.DirCount, n.FileCount)
 	return nil
 }
 
