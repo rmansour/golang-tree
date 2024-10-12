@@ -20,7 +20,6 @@ func Init(path string) (*Node, error) {
 	return &n, nil
 }
 
-// addSubNodes recursively adds sub-nodes and prints directories and files as required.
 func (n *Node) addSubNodes(path string, level int, isLastDir []bool) {
 	entries, err := os.ReadDir(path)
 	if err != nil {
@@ -28,28 +27,33 @@ func (n *Node) addSubNodes(path string, level int, isLastDir []bool) {
 		return
 	}
 
-	// Sort entries: files first, then directories, both alphabetically
-	sort.SliceStable(entries, func(i, j int) bool {
-		if entries[i].IsDir() != entries[j].IsDir() {
-			return !entries[i].IsDir() // Files first, then directories
+	// Filter out hidden files and directories (those starting with ".")
+	var visibleEntries []os.DirEntry
+	for _, entry := range entries {
+		if !strings.HasPrefix(entry.Name(), ".") {
+			visibleEntries = append(visibleEntries, entry)
 		}
-		return entries[i].Name() < entries[j].Name() // Alphabetical order
+	}
+
+	// Sort entries: files first, then directories, both alphabetically
+	sort.SliceStable(visibleEntries, func(i, j int) bool {
+		if visibleEntries[i].IsDir() != visibleEntries[j].IsDir() {
+			return !visibleEntries[i].IsDir() // Files first, then directories
+		}
+		return visibleEntries[i].Name() < visibleEntries[j].Name() // Alphabetical order
 	})
 
-	for i, entry := range entries {
+	// Process only the visible entries
+	for i, entry := range visibleEntries {
 		subNode := &Node{Name: entry.Name()}
-		if strings.HasPrefix(subNode.Name, ".") {
-			continue // Skip hidden files and directories
-		}
 
 		// Determine if this is the last entry
-		isLastEntry := i == len(entries)-1
+		isLastEntry := i == len(visibleEntries)-1
 
 		// Print directory or file
 		if entry.IsDir() {
 			if isLastEntry {
 				fmt.Println(genIndent(level, isLastDir), "└──", subNode.Name)
-
 			} else {
 				fmt.Println(genIndent(level, isLastDir), "├──", subNode.Name)
 			}

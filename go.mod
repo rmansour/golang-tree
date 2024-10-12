@@ -1,4 +1,4 @@
-module sort_music_library
+module golang-tree
 
 go 1.23.1
 
