@@ -121,8 +121,16 @@ func main() {
 			err := Steps(path)
 			if err != nil {
 				fmt.Println("Error:", err)
+				os.Exit(1)
 			}
 		}
+	} else {
+		err := Steps(path)
+		if err != nil {
+			fmt.Println("Error:", err)
+			os.Exit(1)
+		}
 	}
+	os.Exit(0)
 
 }
