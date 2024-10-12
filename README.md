@@ -23,4 +23,4 @@ Command-line steps:
 git clone https://github.com/rmansour/golang-tree.git && cd golang-tree && go build
 ```
 
-After that, execute it by running: `./golang-tree` for any UNIX operating system, or `.\golang-tree` for Windows.
+After that, execute it by running: `./golang-tree <path(s)>` for any UNIX operating system, or `.\golang-tree <path(s)>` for Windows.
