@@ -99,8 +99,7 @@ func Steps(path string) error {
 	}
 	fmt.Println(n.Name)
 	n.addSubNodes(n.Name, 1, []bool{})
-	fmt.Println()
-	fmt.Printf("%v directories, %v files\n", n.DirCount, n.FileCount)
+	fmt.Printf("\n%v directories, %v files\n", n.DirCount, n.FileCount)
 	return nil
 }
 
