@@ -1,0 +1,27 @@
+/Users/raedm/Developer/GolangProjects/Exercises/sort_music_library/test
+ ├── Wish You Were Here [SBP 234651]
+ │    ├── Wish You Were Here.cue
+ │    ├── Wish You Were Here.flac
+ │    └── test1
+ │        ├── document1 copy 2.txt
+ │        ├── document1 copy.txt
+ │        └── document1.txt
+ ├── Wish You Were Here [SHVL 814]
+ │    ├── Wish You Were Here.cue
+ │    ├── Wish You Were Here.flac
+ │    └── test2
+ │        ├── document1 copy 2.txt
+ │        ├── document1 copy.txt
+ │        └── document1.txt
+ └── Wish You Were Here [SOPO 100]
+     ├── 01. Shine On You Crazy Diamond (Part 1-5).flac
+     ├── 02. Welcome To The Machine.flac
+     ├── 03. Have A Cigar.flac
+     ├── 04. Wish You Were Here.flac
+     ├── 05. Shine On You Crazy Diamond (Part 6-9).flac
+     └── test3
+         ├── document1 copy 2.txt
+         ├── document1 copy.txt
+         ├── document1.txt
+         └── test3-1
+             └── document1 copy 3-1.txt
