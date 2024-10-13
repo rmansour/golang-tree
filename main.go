@@ -15,15 +15,17 @@ const (
 )
 
 type Node struct {
-	Name      string
-	DirCount  int
-	FileCount int
-	SubNodes  []*Node
+	Name           string
+	ParentDirCount int
+	SubDirCount    int
+	FileCount      int
+	SubNodes       []*Node
 }
 
 func Init(path string) (*Node, error) {
 	n := Node{
-		Name: path,
+		Name:           path,
+		ParentDirCount: 1,
 	}
 	return &n, nil
 }
@@ -59,7 +61,7 @@ func (n *Node) addSubNodes(path string, level int, isLastDir []bool) {
 
 		// Print directory or file
 		if entry.IsDir() {
-			n.DirCount++
+			n.SubDirCount++
 			if isLastEntry {
 				fmt.Printf("%s└── %s%s%s\n", genIndent(level, isLastDir), colorBlue, subNode.Name, colorReset)
 			} else {
@@ -106,8 +108,8 @@ func Steps(path string) error {
 	fmt.Println(n.Name)
 	n.addSubNodes(n.Name, 1, []bool{})
 
-	if n.DirCount >= 0 || n.FileCount >= 0 {
-		fmt.Printf("\n%v directories, %v files\n", n.DirCount, n.FileCount)
+	if n.SubDirCount >= 0 || n.FileCount >= 0 {
+		fmt.Printf("\n%v parent folder, %v sub-directories, %v files\n", n.ParentDirCount, n.SubDirCount, n.FileCount)
 	}
 	return nil
 }
@@ -123,6 +125,10 @@ func main() {
 				fmt.Println("Error:", err)
 				os.Exit(1)
 			}
+
+			if i != len(os.Args)-1 {
+				fmt.Println("-------------------------------")
+			}
 		}
 	} else {
 		err := Steps(path)
@@ -132,5 +138,4 @@ func main() {
 		}
 	}
 	os.Exit(0)
-
 }
