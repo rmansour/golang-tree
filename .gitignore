@@ -118,6 +118,7 @@ go.work
 # User folders
 test/
 .DS_Store
+development/
 *.txt
 *.sh
 *.run
