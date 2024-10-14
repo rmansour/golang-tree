@@ -7,8 +7,8 @@ This is an implementation of the famous "tree" command for Linux/Unix.
 - [x] Total number of folders and files
 
 ### To be added:
-- [ ] Files first
-- [ ] Only Folders
+- [ ] Display only files/folders
+- [ ] Flags support (sort by filename and/or file extension)
 - [ ] Depth to list
 - [ ] Print hidden
 - [ ] Executables for the different OS's
